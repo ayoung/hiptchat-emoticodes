@@ -6,6 +6,31 @@
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <link rel="stylesheet" type="text/css" href="http://zanstra.com/my/Barcode/code128.css">
+    <style type="text/css">
+      .emoticon {
+        display: block;
+        float: left;
+        width: 356px;
+      }
+      .img-wrap {
+        float: left;
+        width: 40px;
+        text-align: right;
+        position: relative;
+        height: 50px;
+      }
+      .emoticon img {
+        right: 0;
+        position: absolute;
+      }
+      .emoticon .barcode {
+        float: left;
+      }
+      .barcode {
+        clear: none;
+      }
+    </style>
     <body>
       <div class="emoticons">
             <a class="emoticon" data-shortcut="(allthethings)" href="#(allthethings)">
@@ -621,5 +646,21 @@
               <div class="shortcut">O:)</div>
             </a>
       </div>
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
+      <script src="http://zanstra.com/my/Barcode/code128.js"></script>
+      <script>
+        var shortcuts = $('.shortcut');
+        console.log(shortcuts.length)
+        _.each(shortcuts, function(shortcut) {
+          $shortcut = $(shortcut);
+          var barcode = code128($shortcut.text());
+          var $div = $('<div class="barcode"></div>');
+          $barcode = $(barcode).appendTo($div);
+          $div.appendTo($shortcut.parent()).find('label').remove();
+          $shortcut.remove();
+          $div.parent().find('img').wrap('<div class="img-wrap"></div>');
+
+        });
+      </script>
     </body>
